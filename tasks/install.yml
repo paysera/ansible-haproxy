@@ -35,12 +35,19 @@
     update_cache: yes
   when: ansible_distribution_release == 'wheezy' or ansible_distribution_release == 'jessie'
 
-- name: 'Add haproxy apt repo (Ubuntu)'
+- name: 'Add haproxy apt repo (Ubuntu Xenial LTS)'
   apt_repository:
     repo: "ppa:vbernat/haproxy-1.5"
     state: present
     update_cache: yes
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version == '16.04'
+
+- name: 'Add haproxy apt repo (Ubuntu Bionic LTS and newer)'
+  apt_repository:
+    repo: "ppa:vbernat/haproxy-2.0"
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version >= '18.04'
 
 - name: Install HAProxy (yum)
   yum:
